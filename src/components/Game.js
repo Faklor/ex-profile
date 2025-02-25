@@ -13,44 +13,34 @@ class GameScene extends Phaser.Scene {
     this.score = 0;
   }
 
+  preload() {
+    this.load.image('player', '/game/accountant.png');
+    this.load.image('document', '/game/document.png');
+    this.load.image('obstacle', '/game/warning.png');
+  }
+
   create() {
-    // Создаем графические объекты
-    const graphics = this.add.graphics();
-
-    // Создаем игрока (синий квадрат)
-    graphics.fillStyle(0x64B5F6);
-    graphics.fillRect(0, 0, 50, 50);
-    graphics.generateTexture('player', 50, 50);
-
-    // Создаем документ (белый прямоугольник)
-    graphics.clear();
-    graphics.fillStyle(0xFFFFFF);
-    graphics.fillRect(0, 0, 40, 60);
-    graphics.generateTexture('document', 40, 60);
-
-    // Создаем препятствие (красный круг)
-    graphics.clear();
-    graphics.fillStyle(0xFF4444);
-    graphics.fillCircle(25, 25, 25);
-    graphics.generateTexture('obstacle', 50, 50);
-
-    graphics.destroy();
-
-    // Создаем игрока
     this.player = this.add.sprite(400, 500, 'player');
-    this.player.setScale(0.8);
+    this.player.setDisplaySize(64, 64);
 
-    // Включаем физику
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
-    // Группы для документов и препятствий
     this.documents = this.physics.add.group();
     this.obstacles = this.physics.add.group();
 
-    // Добавляем коллизии
     this.physics.add.overlap(this.player, this.documents, this.collectDocument, null, this);
     this.physics.add.overlap(this.player, this.obstacles, this.gameOver, null, this);
+
+    // Анимация покачивания для игрока
+    this.tweens.add({
+      targets: this.player,
+      y: '+=10',
+      duration: 1000,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.inOut'
+    });
 
     // Таймеры для создания объектов
     this.time.addEvent({
@@ -67,17 +57,14 @@ class GameScene extends Phaser.Scene {
       loop: true
     });
 
-    // Добавляем текст счета
     this.scoreText = this.add.text(16, 16, 'Score: 0', {
       fontSize: '32px',
       fill: '#fff',
       fontFamily: 'Arial'
     });
 
-    // Управление
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // Добавляем инструкции
     this.add.text(16, this.game.config.height - 40, 'Use ← → arrows or touch sides to move', {
       fontSize: '16px',
       fill: '#fff',
@@ -86,7 +73,6 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // Управление клавиатурой
     if (this.cursors.left.isDown) {
       this.player.x -= 5;
     }
@@ -94,7 +80,6 @@ class GameScene extends Phaser.Scene {
       this.player.x += 5;
     }
 
-    // Мобильное управление
     if (this.input.activePointer.isDown) {
       const touchX = this.input.activePointer.x;
       if (touchX < this.game.config.width / 2) {
@@ -103,27 +88,19 @@ class GameScene extends Phaser.Scene {
         this.player.x += 5;
       }
     }
-
-    // Вращение объектов
-    this.documents.getChildren().forEach(doc => {
-      doc.angle += 1;
-    });
-    this.obstacles.getChildren().forEach(obs => {
-      obs.angle -= 2;
-    });
   }
 
   spawnDocument() {
     const x = Phaser.Math.Between(100, 700);
     const document = this.documents.create(x, 0, 'document');
-    document.setScale(0.8);
+    document.setDisplaySize(40, 48);
     document.setVelocityY(200);
   }
 
   spawnObstacle() {
     const x = Phaser.Math.Between(100, 700);
     const obstacle = this.obstacles.create(x, 0, 'obstacle');
-    obstacle.setScale(0.8);
+    obstacle.setDisplaySize(40, 40);
     obstacle.setVelocityY(300);
   }
 
@@ -132,7 +109,6 @@ class GameScene extends Phaser.Scene {
     this.score += 10;
     this.scoreText.setText('Score: ' + this.score);
 
-    // Эффект при сборе документа
     this.tweens.add({
       targets: this.scoreText,
       scale: 1.2,
@@ -194,8 +170,7 @@ export default function Game() {
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 0 },
-          debug: false
+          gravity: { y: 0 }
         }
       },
       scene: GameScene,
