@@ -1,0 +1,135 @@
+.hobbies {
+  padding: 6rem 2rem;
+  background: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  text-align: center;
+  background: linear-gradient(90deg, #64B5F6 0%, #E91E63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.card {
+  position: relative;
+  width: calc(25% - 2rem);
+  height: 400px;
+  margin: 0;
+  opacity: 0;
+  
+  @media (max-width: 1200px) {
+    width: calc(50% - 2rem);
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    
+    &:hover {
+      transform: rotateY(180deg);
+    }
+  }
+}
+
+.imgBx {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #333;
+  border-radius: 1rem;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+    z-index: 1;
+  }
+}
+
+.contentBx {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: linear-gradient(135deg, #64B5F6 0%, #E91E63 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  
+  h3 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+}
+
+.instagramLink {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+  border-radius: 2rem;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  
+  span {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.instagramIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+} 

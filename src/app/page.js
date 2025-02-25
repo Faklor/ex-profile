@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Expertise from '@/components/Expertise';
+import Hobbies from '@/components/Hobbies';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -40,6 +41,9 @@ export default function Home() {
       </div>
       <div className={`${styles.section} ${styles.fadeIn}`}>
         <Expertise />
+      </div>
+      <div className={`${styles.section} ${styles.fadeIn}`}>
+        <Hobbies />
       </div>
     </div>
   );
