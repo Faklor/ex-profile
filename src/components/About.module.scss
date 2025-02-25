@@ -1,0 +1,46 @@
+.about {
+  padding: 6rem 2rem;
+  background: linear-gradient(45deg, #2a2a2a 0%, #1a1a1a 100%);
+  color: #ffffff;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #64B5F6 0%, #E91E63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.achievements {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.achievement {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  
+  .highlight {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #64B5F6;
+    display: block;
+    margin-bottom: 1rem;
+  }
+} 

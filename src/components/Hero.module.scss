@@ -1,0 +1,92 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 2rem;
+  gap: 4rem;
+  z-index: 1;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+}
+
+.textContent {
+  flex: 1;
+}
+
+.highlight {
+  font-size: 4rem;
+  background: linear-gradient(90deg, #64B5F6 0%, #E91E63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  
+  @media (max-width: 768px) {
+    font-size: 3rem;
+  }
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #ffffff;
+  opacity: 0.8;
+  display: block;
+  margin-top: 1rem;
+}
+
+.recognition {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+  opacity: 0.7;
+}
+
+.imageWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mainImage {
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  object-fit: cover;
+  filter: brightness(0.9);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+    filter: brightness(1);
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+} 

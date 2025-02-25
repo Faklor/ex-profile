@@ -1,0 +1,43 @@
+.expertise {
+  padding: 6rem 2rem;
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  background: linear-gradient(90deg, #64B5F6 0%, #E91E63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  > div {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 1rem;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    h3 {
+      color: #64B5F6;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      opacity: 0.8;
+    }
+  }
+} 
