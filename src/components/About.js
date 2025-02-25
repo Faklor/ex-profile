@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import styles from './About.module.scss';
@@ -6,13 +7,29 @@ export default function About() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    anime({
-      targets: containerRef.current.children,
-      translateY: [50, 0],
-      opacity: [0, 1],
-      delay: anime.stagger(200),
-      easing: 'easeOutExpo'
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: containerRef.current.children,
+              translateY: [50, 0],
+              opacity: [0, 1],
+              delay: anime.stagger(200),
+              easing: 'easeOutExpo',
+              duration: 1000
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
