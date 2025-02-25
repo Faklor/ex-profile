@@ -1,0 +1,111 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  z-index: 1000;
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  color: #ffffff;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #64B5F6, #E91E63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: slideDown 0.5s ease-out;
+}
+
+.score {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #64B5F6;
+  animation: slideDown 0.5s ease-out 0.2s both;
+}
+
+.social {
+  margin-bottom: 2rem;
+  animation: slideDown 0.5s ease-out 0.4s both;
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.fbButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  background: #1877F2;
+  color: white;
+  text-decoration: none;
+  border-radius: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(24, 119, 242, 0.4);
+  }
+}
+
+.fbIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.contact {
+  animation: slideDown 0.5s ease-out 0.6s both;
+
+  h3 {
+    margin-bottom: 1rem;
+    color: #64B5F6;
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .score {
+    font-size: 1.5rem;
+  }
+} 

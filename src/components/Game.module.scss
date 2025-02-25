@@ -1,6 +1,8 @@
 .gameSection {
   position: relative;
-  min-height: 100vh;
+  min-height: 600px;
+  width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
