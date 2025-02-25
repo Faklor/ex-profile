@@ -1,0 +1,166 @@
+.biography {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 6rem 0;
+  background: #1a1a1a;
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.15;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.section {
+  margin-bottom: 4rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(90deg, #64B5F6, #E91E63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+}
+
+.educationBlock {
+  p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.8rem;
+      width: 6px;
+      height: 6px;
+      background: #64B5F6;
+      border-radius: 50%;
+    }
+  }
+
+  .expertise {
+    font-weight: 500;
+    color: #E91E63;
+  }
+}
+
+.timelineGrid {
+  display: grid;
+  gap: 2rem;
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 4rem;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.iconWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #64B5F6, #E91E63);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    z-index: -1;
+  }
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  fill: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .biography {
+    padding: 4rem 0;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  .section {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  .timelineItem {
+    padding-left: 1.5rem;
+    
+    p {
+      font-size: 1rem;
+    }
+  }
+} 

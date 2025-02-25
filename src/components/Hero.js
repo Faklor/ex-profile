@@ -82,10 +82,11 @@ export default function Hero() {
 
   return (
     <section className={styles.hero}>
+      <div className={styles.backgroundAnimation}></div>
       <div className={styles.content}>
         <div className={styles.textContent}>
           <h1>
-            <span ref={nameRef} className={styles.highlight}>
+            <span className={styles.highlight}>
               {text}
               <span ref={cursorRef} className={styles.cursor}>|</span>
             </span>
@@ -96,6 +97,14 @@ export default function Hero() {
           <p ref={recognitionRef} className={styles.recognition}>
             Recognized by Chambers Europe as a leading Intellectual Property expert
           </p>
+          <div className={styles.contactInfo}>
+            <a href="mailto:matveev@aplaw.io" className={styles.contactLink}>
+              matveev@aplaw.io
+            </a>
+            <a href="tel:+375173070432" className={styles.contactLink}>
+              tel. +375 17 307 04 32
+            </a>
+          </div>
         </div>
         <div className={styles.imageWrapper} ref={imageRef}>
           <Image

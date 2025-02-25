@@ -4,7 +4,26 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Expertise from '@/components/Expertise';
 import Hobbies from '@/components/Hobbies';
+import Biography from '@/components/Biography';
+import dynamic from 'next/dynamic';
 import styles from './page.module.scss';
+
+// Динамический импорт компонента Game без SSR
+const Game = dynamic(() => import('@/components/Game'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ 
+      height: '100vh', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      background: '#1a1a1a',
+      color: '#ffffff'
+    }}>
+      Loading game...
+    </div>
+  )
+});
 
 export default function Home() {
   useEffect(() => {
@@ -45,6 +64,8 @@ export default function Home() {
       <div className={`${styles.section} ${styles.fadeIn}`}>
         <Hobbies />
       </div>
+      <Biography />
+      <Game />
     </div>
   );
 }

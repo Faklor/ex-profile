@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "next": "15.1.7",
+    "phaser": "^3.88.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "animejs": "^3.2.2",
-    "sass": "^1.85.1"
+    "sass": "^1.85.1",
+    "three": "^0.173.0"
   }
 }
