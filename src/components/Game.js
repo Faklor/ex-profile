@@ -24,11 +24,12 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('player', '/game/accountant.png');
-    this.load.image('document', '/game/document.png');
-    this.load.image('special-document', '/game/special-document.png'); // Пока используем тот же документ
-    this.load.image('obstacle', '/game/warning.png');
-    this.load.image('bonus', '/game/bonus.png'); // Временно используем документ как бонус
+    const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
+    this.load.image('player', `${baseUrl}/game/accountant.png`);
+    this.load.image('document', `${baseUrl}/game/document.png`);
+    this.load.image('special-document', `${baseUrl}/game/special-document.png`);
+    this.load.image('obstacle', `${baseUrl}/game/warning.png`);
+    this.load.image('bonus', `${baseUrl}/game/bonus.png`);
   }
 
   create() {

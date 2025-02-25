@@ -39,22 +39,22 @@ export default function Hobbies() {
     {
       title: 'Tennis',
       description: 'Mastering the court with precision and strategy',
-      image: '/images/sport.jpg'
+      image: `${process.env.NEXT_PUBLIC_BASEURL}/images/sport.jpg`
     },
     {
       title: 'Music',
       description: 'Finding harmony in every note',
-      image: '/images/music.jpg'
+      image: `${process.env.NEXT_PUBLIC_BASEURL}/images/music.jpg`
     },
     {
       title: 'Travel',
       description: 'Exploring new horizons and cultures',
-      image: '/images/travel.jpg'
+      image: `${process.env.NEXT_PUBLIC_BASEURL}/images/travel.jpg`
     },
     {
       title: 'Photography',
       description: 'Capturing moments that tell stories',
-      image: '/images/photo.jpg'
+      image: `${process.env.NEXT_PUBLIC_BASEURL}/images/photo.jpg`
     }
   ];
 

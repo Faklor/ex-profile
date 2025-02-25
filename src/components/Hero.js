@@ -108,7 +108,7 @@ export default function Hero() {
         </div>
         <div className={styles.imageWrapper} ref={imageRef}>
           <Image
-            src="/images/main.jpg"
+            src={`${process.env.NEXT_PUBLIC_BASEURL}/images/main.jpg`}
             alt="Dmitry Matveyev"
             width={400}
             height={500}
