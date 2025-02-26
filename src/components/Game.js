@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './Game.module.scss';
 import GameFooter from './GameFooter';
 
@@ -275,6 +276,9 @@ export default function Game() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(0);
   const gameRef = useRef(null);
+  const gameSectionRef = useRef(null);
+
+  const router = useRouter();
 
   const getGameDimensions = () => {
     const width = Math.min(800, window.innerWidth);
@@ -300,14 +304,18 @@ export default function Game() {
   }, []);
 
   const startGame = () => {
+    gameSectionRef.current.style.height = '130vh';
     setIsPlaying(true);
     setScore(0);
+
+    router.push('/#game-container');
 
     const { width, height } = getGameDimensions();
 
     const config = {
       type: Phaser.AUTO,
       parent: 'game-container',
+      id: 'game-container',
       width,
       height,
       scale: {
@@ -331,12 +339,13 @@ export default function Game() {
       setScore(finalScore);
       setIsPlaying(false);
       gameRef.current.destroy(true);
+      gameSectionRef.current.style.height = '80vh';
     });
   };
 
   return (
-    <section className={styles.gameSection}>
-      <div className={styles.gameInfo}>
+    <section className={styles.gameSection} ref={gameSectionRef}>
+      <div className={styles.gameInfo}> 
         <h2>Legal Documents Collector</h2>
         <p>Collect legal documents and avoid obstacles!</p>
         <p className={styles.score}>Score: {score}</p>
