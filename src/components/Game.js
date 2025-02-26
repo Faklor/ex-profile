@@ -343,6 +343,7 @@ export default function Game() {
       setShowGame(true);
       setIsPlaying(true);
       setScore(0);
+      gameSectionRef.current.style.height = '130vh';
 
       const { width, height } = getGameDimensions();
 
@@ -379,6 +380,7 @@ export default function Game() {
         if (gameRef.current) {
           gameRef.current.destroy(true);
         }
+        gameSectionRef.current.style.height = '80vh';
       });
 
     } catch (error) {
