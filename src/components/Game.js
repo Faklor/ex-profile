@@ -344,12 +344,13 @@ export default function Game() {
       setIsPlaying(true);
       setScore(0);
       gameSectionRef.current.style.height = '130vh';
-      router.push('/#game-container');
+      
       const { width, height } = getGameDimensions();
 
       const config = {
         type: Phaser.AUTO,
         parent: 'game-container',
+        id: 'game-container',
         width,
         height,
         scale: {
@@ -371,6 +372,7 @@ export default function Game() {
       }
 
       gameRef.current = new Phaser.Game(config);
+      router.push('/#game-container');
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
