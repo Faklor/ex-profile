@@ -31,54 +31,67 @@ class GameScene extends Phaser.Scene {
     this.game.renderer.config = {
       ...this.game.renderer.config,
       antialias: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'high-performance',
+      clearBeforeRender: true,
+      preserveDrawingBuffer: true
     };
 
-    // Конфигурация текстур
-    const textureConfig = {
+    // Загрузка текстур с улучшенными настройками
+    const textureSettings = {
       pixelArt: false,
-      antialiasing: true,
+      smoothing: true,
+      powerOfTwo: true,
       mipmaps: true
     };
 
-    // Загрузка текстур с оптимизированными настройками
-    this.load.image('player', `${baseUrl}/game/accountant.png`, textureConfig);
-    this.load.image('document', `${baseUrl}/game/document.png`, textureConfig);
-    this.load.image('special-document', `${baseUrl}/game/special-document.png`, textureConfig);
-    this.load.image('obstacle', `${baseUrl}/game/warning.png`, textureConfig);
-    this.load.image('bonus', `${baseUrl}/game/bonus.png`, textureConfig);
+    // Загружаем изображения только один раз
+    this.load.image('player', `${baseUrl}/game/accountant.png`, textureSettings);
+    this.load.image('document', `${baseUrl}/game/document.png`, textureSettings);
+    this.load.image('special-document', `${baseUrl}/game/special-document.png`, textureSettings);
+    this.load.image('obstacle', `${baseUrl}/game/warning.png`, textureSettings);
+    this.load.image('bonus', `${baseUrl}/game/bonus.png`, textureSettings);
   }
 
   create() {
-    // Создаем игрока
+    // Создаем игрока с явными размерами
     this.player = this.add.sprite(400, 500, 'player');
-    this.player.setDisplaySize(64, 64);
+    this.player.setDisplaySize(48, 48);
+    this.player.setDepth(1);
     
     // Включаем физику
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
-    // Группы объектов
+    // Группы объектов с явными размерами и глубиной
     this.documents = this.physics.add.group({
       defaultKey: 'document',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(48, 48);
+        gameObject.setDisplaySize(32, 32);
+        gameObject.setDepth(1);
       }
     });
 
     this.obstacles = this.physics.add.group({
       defaultKey: 'obstacle',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(48, 48);
+        gameObject.setDisplaySize(32, 32);
+        gameObject.setDepth(1);
       }
     });
 
     this.bonuses = this.physics.add.group({
       defaultKey: 'bonus',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(48, 48);
+        gameObject.setDisplaySize(32, 32);
+        gameObject.setDepth(1);
       }
     });
+
+    // Добавляем фон для лучшей видимости спрайтов
+    this.add.rectangle(0, 0, this.game.config.width, this.game.config.height, 0x000000)
+      .setOrigin(0)
+      .setDepth(0)
+      .setAlpha(0.8);
 
     // Коллизии
     this.physics.add.overlap(this.player, this.documents, this.collectDocument, null, this);
@@ -190,37 +203,29 @@ class GameScene extends Phaser.Scene {
   }
 
   spawnDocument() {
-    const x = Phaser.Math.Between(100, 700);
-    const isSpecial = Math.random() < 0.2;
-    const document = this.documents.create(x, 0, isSpecial ? 'special-document' : 'document');
-    document.setDisplaySize(40, 48);
-    document.setVelocityY(this.speed);
-    document.isSpecial = isSpecial;
+    const x = Phaser.Math.Between(50, 750);
+    const document = this.documents.create(x, -50);
+    document.setVelocityY(200);
+    document.setDisplaySize(32, 32);
+    document.setDepth(1);
   }
 
   spawnObstacle() {
-    // Создаем несколько препятствий в зависимости от текущего уровня сложности
     for (let i = 0; i < this.obstacleCount; i++) {
-      const segment = this.game.config.width / (this.obstacleCount + 1);
-      const baseX = segment * (i + 1);
-      // Добавляем случайное отклонение в пределах сегмента
-      const x = Phaser.Math.Between(
-        Math.max(100, baseX - segment/2), 
-        Math.min(700, baseX + segment/2)
-      );
-      
-      const obstacle = this.obstacles.create(x, 0, 'obstacle');
-      obstacle.setDisplaySize(40, 40);
-      obstacle.setVelocityY(this.speed + 100);
+      const x = Phaser.Math.Between(50, 750);
+      const obstacle = this.obstacles.create(x, -50);
+      obstacle.setVelocityY(250);
+      obstacle.setDisplaySize(32, 32);
+      obstacle.setDepth(1);
     }
   }
 
   spawnBonus() {
-    const x = Phaser.Math.Between(100, 700);
-    const bonus = this.bonuses.create(x, 0, 'bonus');
-    bonus.setDisplaySize(40, 40);
+    const x = Phaser.Math.Between(50, 750);
+    const bonus = this.bonuses.create(x, -50);
     bonus.setVelocityY(150);
-    bonus.setTint(0xffff00); // Желтый цвет для отличия
+    bonus.setDisplaySize(32, 32);
+    bonus.setDepth(1);
   }
 
   collectDocument(player, document) {
