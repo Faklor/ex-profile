@@ -36,37 +36,29 @@ class GameScene extends Phaser.Scene {
       preserveDrawingBuffer: true
     };
 
-    // Загрузка текстур с улучшенными настройками
-    const textureSettings = {
-      pixelArt: false,
-      smoothing: true,
-      powerOfTwo: true,
-      mipmaps: true
-    };
-
-    // Загружаем изображения только один раз
-    this.load.image('player', `${baseUrl}/game/accountant.png`, textureSettings);
-    this.load.image('document', `${baseUrl}/game/document.png`, textureSettings);
-    this.load.image('special-document', `${baseUrl}/game/special-document.png`, textureSettings);
-    this.load.image('obstacle', `${baseUrl}/game/warning.png`, textureSettings);
-    this.load.image('bonus', `${baseUrl}/game/bonus.png`, textureSettings);
+    // Загрузка текстур
+    this.load.image('player', `${baseUrl}/game/accountant.png`);
+    this.load.image('document', `${baseUrl}/game/document.png`);
+    this.load.image('special-document', `${baseUrl}/game/special-document.png`);
+    this.load.image('obstacle', `${baseUrl}/game/warning.png`);
+    this.load.image('bonus', `${baseUrl}/game/bonus.png`);
   }
 
   create() {
-    // Создаем игрока с явными размерами
+    // Увеличиваем размеры игрока
     this.player = this.add.sprite(400, 500, 'player');
-    this.player.setDisplaySize(48, 48);
+    this.player.setDisplaySize(80, 80); // Увеличили размер
     this.player.setDepth(1);
     
     // Включаем физику
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
-    // Группы объектов с явными размерами и глубиной
+    // Группы объектов с увеличенными размерами
     this.documents = this.physics.add.group({
       defaultKey: 'document',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(32, 32);
+        gameObject.setDisplaySize(60, 60); // Увеличили размер
         gameObject.setDepth(1);
       }
     });
@@ -74,7 +66,7 @@ class GameScene extends Phaser.Scene {
     this.obstacles = this.physics.add.group({
       defaultKey: 'obstacle',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(32, 32);
+        gameObject.setDisplaySize(60, 60); // Увеличили размер
         gameObject.setDepth(1);
       }
     });
@@ -82,12 +74,12 @@ class GameScene extends Phaser.Scene {
     this.bonuses = this.physics.add.group({
       defaultKey: 'bonus',
       createCallback: (gameObject) => {
-        gameObject.setDisplaySize(32, 32);
+        gameObject.setDisplaySize(60, 60); // Увеличили размер
         gameObject.setDepth(1);
       }
     });
 
-    // Добавляем фон для лучшей видимости спрайтов
+    // Добавляем фон
     this.add.rectangle(0, 0, this.game.config.width, this.game.config.height, 0x000000)
       .setOrigin(0)
       .setDepth(0)
@@ -97,6 +89,33 @@ class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.documents, this.collectDocument, null, this);
     this.physics.add.overlap(this.player, this.obstacles, this.hitObstacle, null, this);
     this.physics.add.overlap(this.player, this.bonuses, this.collectBonus, null, this);
+
+    // Обновляем методы создания объектов
+    this.spawnDocument = () => {
+      const x = Phaser.Math.Between(50, 750);
+      const document = this.documents.create(x, -50);
+      document.setVelocityY(200);
+      document.setDisplaySize(60, 60); // Увеличили размер
+      document.setDepth(1);
+    };
+
+    this.spawnObstacle = () => {
+      for (let i = 0; i < this.obstacleCount; i++) {
+        const x = Phaser.Math.Between(50, 750);
+        const obstacle = this.obstacles.create(x, -50);
+        obstacle.setVelocityY(250);
+        obstacle.setDisplaySize(60, 60); // Увеличили размер
+        obstacle.setDepth(1);
+      }
+    };
+
+    this.spawnBonus = () => {
+      const x = Phaser.Math.Between(50, 750);
+      const bonus = this.bonuses.create(x, -50);
+      bonus.setVelocityY(150);
+      bonus.setDisplaySize(60, 60); // Увеличили размер
+      bonus.setDepth(1);
+    };
 
     // Обновленные таймеры
     this.documentTimer = this.time.addEvent({
@@ -200,32 +219,6 @@ class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
-  }
-
-  spawnDocument() {
-    const x = Phaser.Math.Between(50, 750);
-    const document = this.documents.create(x, -50);
-    document.setVelocityY(200);
-    document.setDisplaySize(32, 32);
-    document.setDepth(1);
-  }
-
-  spawnObstacle() {
-    for (let i = 0; i < this.obstacleCount; i++) {
-      const x = Phaser.Math.Between(50, 750);
-      const obstacle = this.obstacles.create(x, -50);
-      obstacle.setVelocityY(250);
-      obstacle.setDisplaySize(32, 32);
-      obstacle.setDepth(1);
-    }
-  }
-
-  spawnBonus() {
-    const x = Phaser.Math.Between(50, 750);
-    const bonus = this.bonuses.create(x, -50);
-    bonus.setVelocityY(150);
-    bonus.setDisplaySize(32, 32);
-    bonus.setDepth(1);
   }
 
   collectDocument(player, document) {
