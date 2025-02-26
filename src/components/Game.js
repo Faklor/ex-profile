@@ -277,6 +277,7 @@ export default function Game() {
   const [score, setScore] = useState(0);
   const [showGame, setShowGame] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const gameRef = useRef(null);
   const gameSectionRef = useRef(null);
 
@@ -305,12 +306,32 @@ export default function Game() {
     };
   }, []);
 
-  const startGame = (e) => {
+  const startGame = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setShowFooter(false);
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
+    const resources = [
+      `${baseUrl}/game/accountant.png`,
+      `${baseUrl}/game/document.png`,
+      `${baseUrl}/game/special-document.png`,
+      `${baseUrl}/game/warning.png`,
+      `${baseUrl}/game/bonus.png`
+    ];
+
+    await Promise.all(resources.map(url => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = url;
+      });
+    })).catch(console.error);
+
     setShowGame(true);
     setIsPlaying(true);
     setScore(0);
-    setShowFooter(false);
     gameSectionRef.current.style.height = '130vh';
 
     router.push('/#game-container');
@@ -348,6 +369,8 @@ export default function Game() {
       gameRef.current.destroy(true);
       gameSectionRef.current.style.height = '80vh';
     });
+
+    setIsLoading(false);
   };
 
   return (
@@ -357,11 +380,21 @@ export default function Game() {
         <p>Collect legal documents and avoid obstacles!</p>
         <p className={styles.score}>Score: {score}</p>
         {!isPlaying && (
-          <button className={styles.startButton} onClick={startGame}>
-            Start Game
+          <button 
+            className={`${styles.startButton} ${isLoading ? styles.loading : ''}`} 
+            onClick={startGame}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Loading...' : 'Start Game'}
           </button>
         )}
       </div>
+      {isLoading && (
+        <div className={styles.loadingScreen}>
+          <div className={styles.spinner}></div>
+          <p>Loading game resources...</p>
+        </div>
+      )}
       <div 
         id="game-container" 
         className={`${styles.gameContainer} ${showGame ? styles.visible : styles.hidden}`} 
