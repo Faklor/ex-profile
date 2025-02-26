@@ -331,7 +331,7 @@ export default function Game() {
               loadedCount++;
               setLoadingProgress((loadedCount / resources.length) * 100);
               resolve();
-              router.push('/#game-container',undefined, { shallow: true });
+              
             };
             img.onerror = () => {
               console.error(`Failed to load: ${url}`);
@@ -373,7 +373,7 @@ export default function Game() {
       }
 
       gameRef.current = new Phaser.Game(config);
-      
+      router.push('#game-container',undefined, { shallow: true });
       // setTimeout(() => {
       //   const path = `/#game-container`;
       //   router.push(path);
@@ -409,7 +409,7 @@ export default function Game() {
  
 
   return (
-    <section className={styles.gameSection} ref={gameSectionRef}>
+    <section className={styles.gameSection} ref={gameSectionRef} id="game-container" >
       <div className={styles.gameInfo}> 
         <h2>Legal Documents Collector</h2>
         <p>Collect legal documents and avoid obstacles!</p>
@@ -437,7 +437,7 @@ export default function Game() {
         </div>
       )}
       <div 
-        id="game-container" 
+        
         className={`${styles.gameContainer} ${showGame ? styles.visible : styles.hidden}`} 
       />
       <GameFooter score={score} isVisible={showFooter} />
