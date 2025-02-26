@@ -141,26 +141,60 @@
   fill: #ffffff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 770px) {
   .biography {
-    padding: 4rem 0;
+    padding: 2rem 1rem;
   }
 
   .content {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .section {
     h2 {
-      font-size: 2rem;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
     }
   }
 
+  .timelineGrid {
+    gap: 1.5rem;
+  }
+
   .timelineItem {
-    padding-left: 1.5rem;
-    
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .iconWrapper {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      padding: 8px;
+      
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
     p {
-      font-size: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+  }
+
+  .educationBlock {
+    p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .expertise {
+      font-size: 0.9rem;
     }
   }
 } 
