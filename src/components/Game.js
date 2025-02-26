@@ -344,14 +344,13 @@ export default function Game() {
       setShowGame(true);
       setIsPlaying(true);
       setScore(0);
-      gameSectionRef.current.style.height = '130vh';
+      gameSectionRef.current.style.height = '100vh';
       
       const { width, height } = getGameDimensions();
 
       const config = {
         type: Phaser.AUTO,
         parent: 'game-container',
-        id: 'game-container',
         width,
         height,
         scale: {
@@ -373,11 +372,11 @@ export default function Game() {
       }
 
       gameRef.current = new Phaser.Game(config);
-
-      setTimeout(() => {
-        const path = `/#game-container`;
-        router.push(path);
-      }, 150);
+      
+      // setTimeout(() => {
+      //   const path = `/#game-container`;
+      //   router.push(path);
+      // }, 150);
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
@@ -405,23 +404,7 @@ export default function Game() {
   };
 
   // Добавляем обработчик хэша URL
-  useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#game-container') {
-        const gameContainer = document.getElementById('game-container');
-        if (gameContainer) {
-          gameContainer.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
-          });
-        }
-      }
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+ 
 
   return (
     <section className={styles.gameSection} ref={gameSectionRef}>
