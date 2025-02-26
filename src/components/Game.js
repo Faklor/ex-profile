@@ -344,7 +344,7 @@ export default function Game() {
       setIsPlaying(true);
       setScore(0);
       gameSectionRef.current.style.height = '130vh';
-
+      router.push('/#game-container');
       const { width, height } = getGameDimensions();
 
       const config = {
