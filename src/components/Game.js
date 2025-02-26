@@ -311,64 +311,84 @@ export default function Game() {
     setIsLoading(true);
     setShowFooter(false);
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
-    const resources = [
-      `${baseUrl}/game/accountant.png`,
-      `${baseUrl}/game/document.png`,
-      `${baseUrl}/game/special-document.png`,
-      `${baseUrl}/game/warning.png`,
-      `${baseUrl}/game/bonus.png`
-    ];
+    try {
+      // Получаем корректный baseUrl
+      const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
+      
+      // Предварительная загрузка ресурсов с полными путями
+      const resources = [
+        `${baseUrl}/game/accountant.png`,
+        `${baseUrl}/game/document.png`,
+        `${baseUrl}/game/special-document.png`,
+        `${baseUrl}/game/warning.png`,
+        `${baseUrl}/game/bonus.png`
+      ];
 
-    await Promise.all(resources.map(url => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = url;
-      });
-    })).catch(console.error);
+      // Загружаем все изображения с обработкой ошибок
+      await Promise.all(
+        resources.map(url => 
+          new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = () => {
+              console.error(`Failed to load: ${url}`);
+              reject(new Error(`Failed to load: ${url}`));
+            };
+            img.src = url;
+          })
+        )
+      );
 
-    setShowGame(true);
-    setIsPlaying(true);
-    setScore(0);
-    gameSectionRef.current.style.height = '130vh';
+      // После успешной загрузки инициализируем игру
+      setShowGame(true);
+      setIsPlaying(true);
+      setScore(0);
 
-    router.push('/#game-container');
+      const { width, height } = getGameDimensions();
 
-    const { width, height } = getGameDimensions();
-
-    const config = {
-      type: Phaser.AUTO,
-      parent: 'game-container',
-      id: 'game-container',
-      width,
-      height,
-      scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
+      const config = {
+        type: Phaser.AUTO,
         parent: 'game-container',
-      },
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { y: 0 }
+        width,
+        height,
+        scale: {
+          mode: Phaser.Scale.FIT,
+          autoCenter: Phaser.Scale.CENTER_BOTH,
+        },
+        physics: {
+          default: 'arcade',
+          arcade: {
+            gravity: { y: 0 }
+          }
+        },
+        scene: GameScene,
+        backgroundColor: '#1a1a1a'
+      };
+
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+      }
+
+      gameRef.current = new Phaser.Game(config);
+
+      gameRef.current.events.on('gameOver', (finalScore) => {
+        setScore(finalScore);
+        setIsPlaying(false);
+        setShowGame(false);
+        setShowFooter(true);
+        if (gameRef.current) {
+          gameRef.current.destroy(true);
         }
-      },
-      scene: GameScene,
-      backgroundColor: '#1a1a1a'
-    };
+      });
 
-    gameRef.current = new Phaser.Game(config);
-
-    gameRef.current.events.on('gameOver', (finalScore) => {
-      setScore(finalScore);
-      setIsPlaying(false);
+    } catch (error) {
+      console.error('Failed to initialize game:', error);
+      setIsLoading(false);
       setShowGame(false);
-      setShowFooter(true);
-      gameRef.current.destroy(true);
-      gameSectionRef.current.style.height = '80vh';
-    });
+      setIsPlaying(false);
+      alert('Failed to load game resources. Please try again.');
+      return;
+    }
 
     setIsLoading(false);
   };
