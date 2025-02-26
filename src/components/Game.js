@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './Game.module.scss';
 import GameFooter from './GameFooter';
 
@@ -281,8 +280,6 @@ export default function Game() {
   const gameRef = useRef(null);
   const gameSectionRef = useRef(null);
 
-  const router = useRouter();
-
   const getGameDimensions = () => {
     const width = Math.min(800, window.innerWidth);
     const height = Math.min(600, window.innerHeight);
@@ -339,6 +336,15 @@ export default function Game() {
         )
       );
 
+      // После успешной загрузки плавно скроллим к игре
+      const gameContainer = document.getElementById('game-container');
+      if (gameContainer) {
+        gameContainer.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+
       // После успешной загрузки инициализируем игру
       setShowGame(true);
       setIsPlaying(true);
@@ -372,7 +378,6 @@ export default function Game() {
       }
 
       gameRef.current = new Phaser.Game(config);
-      router.push('/#game-container');
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
