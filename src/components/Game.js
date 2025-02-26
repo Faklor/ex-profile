@@ -26,26 +26,59 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
-    this.load.image('player', `${baseUrl}/game/accountant.png`);
-    this.load.image('document', `${baseUrl}/game/document.png`);
-    this.load.image('special-document', `${baseUrl}/game/special-document.png`);
-    this.load.image('obstacle', `${baseUrl}/game/warning.png`);
-    this.load.image('bonus', `${baseUrl}/game/bonus.png`);
+    
+    // Настройка WebGL рендерера
+    this.game.renderer.config = {
+      ...this.game.renderer.config,
+      antialias: true,
+      powerPreference: 'high-performance'
+    };
+
+    // Конфигурация текстур
+    const textureConfig = {
+      pixelArt: false,
+      antialiasing: true,
+      mipmaps: true
+    };
+
+    // Загрузка текстур с оптимизированными настройками
+    this.load.image('player', `${baseUrl}/game/accountant.png`, textureConfig);
+    this.load.image('document', `${baseUrl}/game/document.png`, textureConfig);
+    this.load.image('special-document', `${baseUrl}/game/special-document.png`, textureConfig);
+    this.load.image('obstacle', `${baseUrl}/game/warning.png`, textureConfig);
+    this.load.image('bonus', `${baseUrl}/game/bonus.png`, textureConfig);
   }
 
   create() {
     // Создаем игрока
     this.player = this.add.sprite(400, 500, 'player');
     this.player.setDisplaySize(64, 64);
-
-    // Физика
+    
+    // Включаем физику
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
     // Группы объектов
-    this.documents = this.physics.add.group();
-    this.obstacles = this.physics.add.group();
-    this.bonuses = this.physics.add.group();
+    this.documents = this.physics.add.group({
+      defaultKey: 'document',
+      createCallback: (gameObject) => {
+        gameObject.setDisplaySize(48, 48);
+      }
+    });
+
+    this.obstacles = this.physics.add.group({
+      defaultKey: 'obstacle',
+      createCallback: (gameObject) => {
+        gameObject.setDisplaySize(48, 48);
+      }
+    });
+
+    this.bonuses = this.physics.add.group({
+      defaultKey: 'bonus',
+      createCallback: (gameObject) => {
+        gameObject.setDisplaySize(48, 48);
+      }
+    });
 
     // Коллизии
     this.physics.add.overlap(this.player, this.documents, this.collectDocument, null, this);
@@ -68,7 +101,7 @@ class GameScene extends Phaser.Scene {
     });
 
     this.bonusTimer = this.time.addEvent({
-      delay: 15000,
+      delay: 10000,
       callback: this.spawnBonus,
       callbackScope: this,
       loop: true
@@ -206,22 +239,31 @@ class GameScene extends Phaser.Scene {
 
   hitObstacle(player, obstacle) {
     if (this.isInvulnerable) return;
-    
-    obstacle.destroy();
-    this.lives--;
-    this.livesText.setText('Lives: ' + '❤️'.repeat(this.lives));
 
-    if (this.lives <= 0) {
-      this.scene.pause();
-      this.game.events.emit('gameOver', this.score);
-    } else {
-      // Временная неуязвимость
+    this.lives = Math.max(0, this.lives - 1); // Предотвращаем отрицательные значения
+    obstacle.destroy();
+
+    if (this.lives > 0) {
+      // Мигание при потере жизни
       this.isInvulnerable = true;
-      this.player.alpha = 0.5;
-      this.time.delayedCall(2000, () => {
+      player.alpha = 0.5;
+      
+      this.time.delayedCall(1000, () => {
         this.isInvulnerable = false;
-        this.player.alpha = 1;
+        player.alpha = 1;
       });
+
+      // Визуализация оставшихся жизней (используем безопасную проверку)
+      const heartsDisplay = '❤️'.repeat(Math.max(0, this.lives));
+      this.game.events.emit('updateLives', heartsDisplay);
+    } else {
+      // Конец игры
+      this.documentTimer.destroy();
+      this.obstacleTimer.destroy();
+      this.bonusTimer.destroy();
+      
+      this.game.events.emit('gameOver', this.score);
+      this.scene.stop();
     }
   }
 
