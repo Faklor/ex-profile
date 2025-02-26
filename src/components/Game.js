@@ -354,6 +354,7 @@ export default function Game() {
         parent: 'game-container',
         width,
         height,
+        pixelArt: false,
         scale: {
           mode: Phaser.Scale.FIT,
           autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -363,6 +364,11 @@ export default function Game() {
           arcade: {
             gravity: { y: 0 }
           }
+        },
+        render: {
+          antialias: true,
+          pixelArt: false,
+          roundPixels: true
         },
         scene: GameScene,
         backgroundColor: '#1a1a1a'
