@@ -368,7 +368,7 @@ export default function Game() {
       gameRef.current = new Phaser.Game(config);
 
       setTimeout(() => {
-        const path = `${baseUrl}/#game-container`;
+        const path = `/#game-container`;
         router.push(path);
       }, 100);
 
