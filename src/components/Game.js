@@ -368,8 +368,7 @@ export default function Game() {
       gameRef.current = new Phaser.Game(config);
 
       setTimeout(() => {
-        const path = `/#game-container`;
-        router.push(path);
+        router.push('/#game-container');
       }, 100);
 
       gameRef.current.events.on('gameOver', (finalScore) => {
