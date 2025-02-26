@@ -377,6 +377,7 @@ export default function Game() {
       //   const path = `/#game-container`;
       //   router.push(path);
       // }, 150);
+      router.push('/#game-container',undefined, { shallow: true });
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
