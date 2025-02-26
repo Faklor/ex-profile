@@ -275,6 +275,8 @@ class GameScene extends Phaser.Scene {
 export default function Game() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(0);
+  const [showGame, setShowGame] = useState(false);
+  const [showFooter, setShowFooter] = useState(false);
   const gameRef = useRef(null);
   const gameSectionRef = useRef(null);
 
@@ -303,10 +305,13 @@ export default function Game() {
     };
   }, []);
 
-  const startGame = () => {
-    gameSectionRef.current.style.height = '130vh';
+  const startGame = (e) => {
+    e.preventDefault();
+    setShowGame(true);
     setIsPlaying(true);
     setScore(0);
+    setShowFooter(false);
+    gameSectionRef.current.style.height = '130vh';
 
     router.push('/#game-container');
 
@@ -338,6 +343,8 @@ export default function Game() {
     gameRef.current.events.on('gameOver', (finalScore) => {
       setScore(finalScore);
       setIsPlaying(false);
+      setShowGame(false);
+      setShowFooter(true);
       gameRef.current.destroy(true);
       gameSectionRef.current.style.height = '80vh';
     });
@@ -355,8 +362,11 @@ export default function Game() {
           </button>
         )}
       </div>
-      <div id="game-container" className={styles.gameContainer} />
-      <GameFooter score={score} isVisible={!isPlaying && score > 0} />
+      <div 
+        id="game-container" 
+        className={`${styles.gameContainer} ${showGame ? styles.visible : styles.hidden}`} 
+      />
+      <GameFooter score={score} isVisible={showFooter} />
     </section>
   );
 } 

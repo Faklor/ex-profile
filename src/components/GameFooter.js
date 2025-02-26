@@ -6,16 +6,23 @@ export default function GameFooter({ score, isVisible }) {
   const footerRef = useRef(null);
 
   useEffect(() => {
-    if (isVisible && footerRef.current) {
-      footerRef.current.style.transform = 'translateY(0)';
-      footerRef.current.style.opacity = '1';
+    if (footerRef.current) {
+      if (isVisible) {
+        // Показываем футер
+        footerRef.current.style.transform = 'translateY(0)';
+        footerRef.current.style.opacity = '1';
+      } else {
+        // Скрываем футер
+        footerRef.current.style.transform = 'translateY(100%)';
+        footerRef.current.style.opacity = '0';
+      }
     }
   }, [isVisible]);
 
   return (
     <footer 
       ref={footerRef} 
-      className={`${styles.footer} ${isVisible ? styles.visible : ''}`}
+      className={styles.footer}
     >
       <div className={styles.content}>
         <h2 className={styles.title}>Game Over!</h2>
