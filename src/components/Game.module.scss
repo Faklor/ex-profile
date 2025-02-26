@@ -99,6 +99,21 @@
   z-index: 1000;
   color: white;
 
+  .progressBar {
+    width: 200px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 1rem 0;
+    overflow: hidden;
+  }
+
+  .progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    transition: width 0.3s ease;
+  }
+
   p {
     margin-top: 1rem;
     font-size: 1.2rem;

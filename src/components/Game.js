@@ -279,6 +279,7 @@ export default function Game() {
   const [showGame, setShowGame] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const gameRef = useRef(null);
   const gameSectionRef = useRef(null);
 
@@ -308,6 +309,7 @@ export default function Game() {
   const startGame = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoadingProgress(0);
     setShowFooter(false);
 
     try {
@@ -320,11 +322,16 @@ export default function Game() {
         `${baseUrl}/game/bonus.png`
       ];
 
+      let loadedCount = 0;
       await Promise.all(
         resources.map(url => 
           new Promise((resolve, reject) => {
             const img = new Image();
-            img.onload = resolve;
+            img.onload = () => {
+              loadedCount++;
+              setLoadingProgress((loadedCount / resources.length) * 100);
+              resolve();
+            };
             img.onerror = () => {
               console.error(`Failed to load: ${url}`);
               reject(new Error(`Failed to load: ${url}`));
@@ -368,8 +375,9 @@ export default function Game() {
       gameRef.current = new Phaser.Game(config);
 
       setTimeout(() => {
-        router.push('/#game-container');
-      }, 100);
+        const path = `/#game-container`;
+        router.push(path);
+      }, 150);
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
@@ -385,6 +393,7 @@ export default function Game() {
     } catch (error) {
       console.error('Failed to initialize game:', error);
       setIsLoading(false);
+      setLoadingProgress(0);
       setShowGame(false);
       setIsPlaying(false);
       alert('Failed to load game resources. Please try again.');
@@ -392,6 +401,7 @@ export default function Game() {
     }
 
     setIsLoading(false);
+    setLoadingProgress(0);
   };
 
   // Добавляем обработчик хэша URL
@@ -432,7 +442,13 @@ export default function Game() {
       {isLoading && (
         <div className={styles.loadingScreen}>
           <div className={styles.spinner}></div>
-          <p>Loading game resources...</p>
+          <div className={styles.progressBar}>
+            <div 
+              className={styles.progressFill} 
+              style={{ width: `${loadingProgress}%` }}
+            />
+          </div>
+          <p>Loading game resources... {Math.round(loadingProgress)}%</p>
         </div>
       )}
       <div 
