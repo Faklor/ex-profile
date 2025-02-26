@@ -331,6 +331,7 @@ export default function Game() {
               loadedCount++;
               setLoadingProgress((loadedCount / resources.length) * 100);
               resolve();
+              router.push('/#game-container',undefined, { shallow: true });
             };
             img.onerror = () => {
               console.error(`Failed to load: ${url}`);
@@ -377,7 +378,7 @@ export default function Game() {
       //   const path = `/#game-container`;
       //   router.push(path);
       // }, 150);
-      router.push('/#game-container',undefined, { shallow: true });
+      
 
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
