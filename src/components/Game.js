@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './Game.module.scss';
 import GameFooter from './GameFooter';
 
@@ -272,6 +273,7 @@ class GameScene extends Phaser.Scene {
 }
 
 export default function Game() {
+  const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(0);
   const [showGame, setShowGame] = useState(false);
@@ -309,10 +311,7 @@ export default function Game() {
     setShowFooter(false);
 
     try {
-      // Получаем корректный baseUrl
       const baseUrl = process.env.NEXT_PUBLIC_BASEURL || '';
-      
-      // Предварительная загрузка ресурсов с полными путями
       const resources = [
         `${baseUrl}/game/accountant.png`,
         `${baseUrl}/game/document.png`,
@@ -321,7 +320,6 @@ export default function Game() {
         `${baseUrl}/game/bonus.png`
       ];
 
-      // Загружаем все изображения с обработкой ошибок
       await Promise.all(
         resources.map(url => 
           new Promise((resolve, reject) => {
@@ -336,16 +334,6 @@ export default function Game() {
         )
       );
 
-      // После успешной загрузки плавно скроллим к игре
-      const gameContainer = document.getElementById('game-container');
-      if (gameContainer) {
-        gameContainer.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }
-
-      // После успешной загрузки инициализируем игру
       setShowGame(true);
       setIsPlaying(true);
       setScore(0);
@@ -379,6 +367,10 @@ export default function Game() {
 
       gameRef.current = new Phaser.Game(config);
 
+      setTimeout(() => {
+        router.push('/#game-container');
+      }, 100);
+
       gameRef.current.events.on('gameOver', (finalScore) => {
         setScore(finalScore);
         setIsPlaying(false);
@@ -401,6 +393,25 @@ export default function Game() {
 
     setIsLoading(false);
   };
+
+  // Добавляем обработчик хэша URL
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#game-container') {
+        const gameContainer = document.getElementById('game-container');
+        if (gameContainer) {
+          gameContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   return (
     <section className={styles.gameSection} ref={gameSectionRef}>
