@@ -25,10 +25,33 @@
     padding: 2rem;
     border-radius: 1rem;
     transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      transition: transform 0.6s;
+    }
+    
+    &:hover::before {
+      transform: rotate(45deg) translate(50%, 50%);
+    }
     
     &:hover {
       transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
     
     h3 {

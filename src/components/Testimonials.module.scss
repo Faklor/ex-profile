@@ -1,0 +1,210 @@
+.testimonials {
+  padding: 6rem 2rem;
+  text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+    color: var(--text-color);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 1rem;
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.sliderContainer {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.quoteIcon {
+  font-size: 4rem;
+  color: var(--primary-color);
+  opacity: 0.3;
+  margin-bottom: 1rem;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.text {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+  font-style: italic;
+  max-width: 800px;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  strong {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  span {
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+
+  .year {
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &.activeDot {
+    background: var(--primary-color);
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials {
+    padding: 3rem 1rem;
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .slide {
+    padding: 1.5rem;
+    height: auto;
+    min-height: 450px;
+  }
+
+  .text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .quoteIcon {
+    font-size: 3rem;
+  }
+
+  .dots {
+    gap: 0.8rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials {
+    padding: 2rem 0.5rem;
+  }
+
+  .slide {
+    padding: 1rem;
+    min-height: 400px;
+  }
+
+  .text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+}
+
+// Добавляем поддержку для планшетов
+@media (min-width: 769px) and (max-width: 1024px) {
+  .testimonials {
+    padding: 4rem 1.5rem;
+  }
+
+  .slide {
+    padding: 2rem;
+  }
+
+  .text {
+    font-size: 1.1rem;
+  }
+}
+
+// Добавляем поддержку для ландшафтной ориентации на мобильных
+@media (max-height: 600px) and (orientation: landscape) {
+  .slide {
+    min-height: 350px;
+    padding: 1rem;
+  }
+
+  .text {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// Анимация появления
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.testimonials {
+  animation: fadeIn 0.6s ease-out;
+} 

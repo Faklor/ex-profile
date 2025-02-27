@@ -5,6 +5,8 @@ import About from '@/components/About';
 import Expertise from '@/components/Expertise';
 import Hobbies from '@/components/Hobbies';
 import Biography from '@/components/Biography';
+import ParticlesBackground from '@/components/ParticlesBackground';
+import Testimonials from '@/components/Testimonials';
 import dynamic from 'next/dynamic';
 import styles from './page.module.scss';
 
@@ -54,6 +56,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <ParticlesBackground />
       <Hero />
       <div className={`${styles.section} ${styles.fadeIn}`}>
         <About />
@@ -63,6 +66,9 @@ export default function Home() {
       </div>
       <div className={`${styles.section} ${styles.fadeIn}`}>
         <Hobbies />
+      </div>
+      <div className={`${styles.section} ${styles.fadeIn}`}>
+        <Testimonials />
       </div>
       <Biography />
       <Game />

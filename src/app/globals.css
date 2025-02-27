@@ -2,6 +2,11 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 26, 26, 26;
   --background-end-rgb: 26, 26, 26;
+  --gradient-animation-bg: linear-gradient(
+    45deg,
+    rgba(100, 181, 246, 0.1),
+    rgba(233, 30, 99, 0.1)
+  );
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,11 +27,29 @@ body {
   );
   color: rgb(var(--foreground-rgb));
   font-family: var(--font-geist-sans);
+  position: relative;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: var(--gradient-animation-bg);
+  animation: gradientMove 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes gradientMove {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 * {
