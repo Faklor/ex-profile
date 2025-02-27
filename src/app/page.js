@@ -7,6 +7,7 @@ import Hobbies from '@/components/Hobbies';
 import Biography from '@/components/Biography';
 import ParticlesBackground from '@/components/ParticlesBackground';
 import Testimonials from '@/components/Testimonials';
+import PersonalProfile from '@/components/PersonalProfile';
 import dynamic from 'next/dynamic';
 import styles from './page.module.scss';
 
@@ -71,6 +72,9 @@ export default function Home() {
         <Testimonials />
       </div>
       <Biography />
+      <div className={`${styles.section} ${styles.fadeIn}`}>
+        <PersonalProfile />
+      </div>
       <Game />
     </div>
   );
