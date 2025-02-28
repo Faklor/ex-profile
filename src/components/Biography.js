@@ -88,7 +88,7 @@ export default function Biography() {
         muted
         playsInline
       >
-        <source src="/video/background.mp4" type="video/mp4" />
+        <source src={process.env.PUBLIC_URL + "/video/background.mp4"} type="video/mp4" />
       </video>
       <div className={styles.content}>
         <div className={styles.section}>

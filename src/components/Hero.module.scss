@@ -1,118 +1,106 @@
 .hero {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
-  }
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.backgroundAnimation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  z-index: 0;
 }
 
 .content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
-  width: 100%;
-  padding: 0 2rem;
-  gap: 4rem;
-  z-index: 1;
-
-  @media (max-width: 968px) {
-    flex-direction: column;
-    text-align: center;
-    padding: 2rem;
-  }
+  flex-wrap: wrap;
 }
 
 .textContent {
   flex: 1;
-  h1 {
-    white-space: nowrap;
+  padding-right: 4rem;
+  
+  & h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #333;
   }
 }
 
 .highlight {
-  font-size: 3.5rem;
-  background: linear-gradient(
-    to right,
-    #64B5F6 20%,
-    #E91E63 40%,
-    #E91E63 60%,
-    #64B5F6 80%
-  );
-  background-size: 200% auto;
-  color: #000;
-  background-clip: text;
+  display: block;
+  font-size: 4.5rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #2196F3 0%, #E91E63 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine 3s linear infinite;
-  display: inline-block;
-  white-space: nowrap;
-  
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
-  }
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-.cursor {
-  display: inline-block;
-  margin-left: 2px;
-  font-weight: 100;
-  color: #64B5F6;
-  -webkit-text-fill-color: #64B5F6;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
-  font-size: 1.5rem;
-  color: #ffffff;
-  opacity: 0;
   display: block;
-  margin-top: 1rem;
+  font-size: 2rem;
+  color: #555;
+  opacity: 0;
+  margin-bottom: 1rem;
 }
 
 .recognition {
-  margin-top: 2rem;
   font-size: 1.2rem;
-  color: #ffffff;
+  color: #666;
+  margin-bottom: 1rem;
   opacity: 0;
 }
 
-.imageWrapper {
-  flex: 1;
+.contactInfo {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+}
+
+.contactLink {
+  color: #444;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #2196F3;
+  }
+}
+
+.imageWrapper {
+  flex: 0 0 400px;
   opacity: 0;
 }
 
 .mainImage {
-  border-radius: 1rem;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  object-fit: cover;
-  filter: brightness(0.9);
-  transition: transform 0.3s ease, filter 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.02) rotate(-1deg);
-    filter: brightness(1);
-  }
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cursor {
+  color: #333;
 }
 
 @keyframes rotate {
@@ -120,35 +108,35 @@
   to { transform: rotate(360deg); }
 }
 
-.contactInfo {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  opacity: 0;
-  animation: fadeIn 0.5s ease-out 2.5s forwards;
-}
-
-.contactLink {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 1.1rem;
-  opacity: 0.8;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    opacity: 1;
-    color: #64B5F6;
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
   }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .textContent {
+    padding-right: 0;
+    text-align: center;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .textContent h1 {
+    font-size: 3rem;
+    padding-top: 3rem;
+  }
+
+  .highlight {
+    font-size: 3.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+
+  .recognition {
+    font-size: 1rem;
+  }
+
+  .imageWrapper {
+    padding-top: 3rem;
   }
 } 

@@ -1,0 +1,158 @@
+.combined {
+  padding: 6rem 0rem 0rem 0rem ;
+  background: linear-gradient(45deg, #ffffff 0%, #f9f9f9 100%); // Светлый фон
+  color: #333;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+
+}
+/* хром, сафари */
+.combined::-webkit-scrollbar { width: 0; }
+
+/* ie 10+ */
+.combined { -ms-overflow-style: none; }
+
+/* фф (свойство больше не работает, других способов тоже нет)*/
+.combined { overflow: -moz-scrollbars-none; }
+
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  background: linear-gradient(90deg, #64B5F6 0%, #E91E63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+}
+
+.description {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.achievements {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.achievement {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.highlight {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #64B5F6; // Цвет для выделения
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.expertise {
+  margin-top: 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  div {
+    background: rgba(240, 240, 240, 0.05);
+    padding: 2rem;
+    border-radius: 1rem;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    //background-color: #1b1b1b;
+    transition: all 0.3s ease;
+  
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      transition: transform 0.6s;
+    }
+  
+    &:hover::before {
+      transform: rotate(45deg) translate(50%, 50%);
+    }
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      cursor: default;
+    }
+  
+    h3 {
+      color: #64B5F6;
+      margin-bottom: 1rem;
+    }
+  
+    p {
+      opacity: 0.8;
+    }
+  }
+}
+
+
+
+// Мобильные стили
+@media (max-width: 768px) {
+  .combined {
+    overflow-x: auto; // Добавляет горизонтальную прокрутку
+    //white-space: nowrap; // Предотвращает перенос строк
+  }
+  .title {
+    font-size: 2.5rem; // Уменьшение размера заголовка
+    margin-bottom: 2rem;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .description {
+    font-size: 1rem; // Уменьшение размера текста
+  }
+
+  .achievements {
+    flex-direction: column; // Вертикальное расположение достижений
+    gap: 2rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr; // Одна колонка на мобильных устройствах
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .achievement {
+    padding: 1.5rem; // Уменьшение отступов
+  }
+
+  .expertise-item {
+    padding: 1.5rem; // Уменьшение отступов
+  }
+}

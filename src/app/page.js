@@ -1,81 +1,85 @@
 'use client'
-import { useEffect } from 'react';
-import Hero from '@/components/Hero';
-import About from '@/components/About';
-import Expertise from '@/components/Expertise';
-import Hobbies from '@/components/Hobbies';
-import Biography from '@/components/Biography';
-import ParticlesBackground from '@/components/ParticlesBackground';
-import Testimonials from '@/components/Testimonials';
-import PersonalProfile from '@/components/PersonalProfile';
-import dynamic from 'next/dynamic';
+import { useRef } from 'react'; 
+import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from './page.module.scss';
+import Hero from '@/components/Hero';
+import Combined from '@/components/Combined';
 
-// Динамический импорт компонента Game без SSR
-const Game = dynamic(() => import('@/components/Game'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ 
-      height: '100vh', 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center',
-      background: '#1a1a1a',
-      color: '#ffffff'
-    }}>
-      Loading game...
-    </div>
-  )
-});
 
 export default function Home() {
-  useEffect(() => {
-    // Плавный скролл для всей страницы
-    document.documentElement.style.scrollBehavior = 'smooth';
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-    // Настройка наблюдателя за появлением элементов
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      }
-    );
-
-    // Находим все секции для анимации
-    const sections = document.querySelectorAll(`.${styles.section}`);
-    sections.forEach(section => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
+  const cards = [
+    {
+      component: Hero,
+      background: "#ffffff"
+    },
+    {
+      component: Combined,
+      background: "#ffffff"
+    },
+   
+  ];
 
   return (
-    <div className={styles.container}>
-      <ParticlesBackground />
-      <Hero />
-      <div className={`${styles.section} ${styles.fadeIn}`}>
-        <About />
-      </div>
-      <div className={`${styles.section} ${styles.fadeIn}`}>
-        <Expertise />
-      </div>
-      <div className={`${styles.section} ${styles.fadeIn}`}>
-        <Hobbies />
-      </div>
-      <div className={`${styles.section} ${styles.fadeIn}`}>
-        <Testimonials />
-      </div>
-      <Biography />
-      <div className={`${styles.section} ${styles.fadeIn}`}>
-        <PersonalProfile />
-      </div>
-      <Game />
-    </div>
+    <main ref={containerRef} className={styles.mainContainer}>
+      <video className={styles.backgroundVideo} autoPlay muted loop playsInline>
+        <source src={`${process.env.NEXT_PUBLIC_BASEURL}/backgroundScroll/main.mp4`} type="video/mp4" />
+      </video>
+      {cards.map((card, index) => {
+        const progress = useTransform(
+          scrollYProgress,
+          [index * 0.3, (index * 0.3) + 0.3],
+          [0, 1]
+        );
+
+        const scale = useTransform(
+          progress,
+          [0, 0.5],
+          [1, 0.5]
+        );
+
+        const borderRadius = useTransform(
+          progress,
+          [0, 0.5],
+          ['0px', '30px']
+        );
+
+        const y = useTransform(
+          progress,
+          [0, 0.5],
+          ['100vh', '0vh']
+        );
+
+        return (
+          <motion.div
+            key={index}
+            className={styles.card}
+            initial={{ opacity: index === 0 ? 1 : 0 }}
+            style={{
+              scale: index === 0 ? scale : 1,
+              y: index === 0 ? 0 : y,
+              opacity: index === 0 ? 1 : progress,
+              backgroundColor: card.background,
+              borderRadius: index === 0 ? borderRadius : 0,
+              overflow: 'hidden'
+            }}
+          >
+            {index === 0 ? (
+              <card.component />
+            ) : (
+              <card.component />
+            )}
+          </motion.div>
+         
+        );
+        
+      })}
+      
+    </main>
   );
 }

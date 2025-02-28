@@ -3,6 +3,7 @@
   background: #1a1a1a;
   color: #ffffff;
   overflow-x: hidden;
+  
 }
 
 .section {
@@ -23,5 +24,70 @@
   }
   &:nth-child(3) {
     transition-delay: 0.4s;
+  }
+}
+
+.mainContainer {
+  height: 400vh;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform-origin: center center;
+  z-index: 2;
+  transition: box-shadow 0.3s ease;
+  
+  &:first-child {
+    background: transparent;
+    
+    > * {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // Добавляем тень при скруглении
+  &[style*="border-radius: 30px"] {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.cardContent {
+  color: #000;
+  text-align: center;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  
+  h2 {
+    font-size: 8rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  p {
+    font-size: 2rem;
+    opacity: 0.7;
   }
 } 
