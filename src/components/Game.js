@@ -9,7 +9,9 @@ if (typeof window !== 'undefined') {
   Phaser = require('phaser');
 }
 
-class GameScene extends Phaser.Scene {
+let Scene = Phaser && Phaser.Scene ? Phaser.Scene : null;
+
+class GameScene extends Scene {
   constructor() {
     super({ key: 'GameScene' });
     this.score = 0;
